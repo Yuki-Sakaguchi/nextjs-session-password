@@ -6,13 +6,12 @@ import { useRouter } from 'next/router';
  */
 export const useAuth = () => {
   const { push } = useRouter();
+
   const [login, setLogin] = useState(false);
   const [password, setPassword] = useState('');
 
   const signIn = async () => {
-    console.log(password);
     if (password === 'aaa') {
-      console.log('login')
       setLogin(true);
     }
   };
@@ -23,7 +22,6 @@ export const useAuth = () => {
   };
 
   const validateSession = async () => {
-    console.log('validateSession', login);
     if (login) {
       push('/dashboard');
     } else {
