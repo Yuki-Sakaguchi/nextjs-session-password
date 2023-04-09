@@ -7,6 +7,7 @@ function logoutRoute(
   res: NextApiResponse<{ ok: boolean }>
 ) {
   console.log('logout before', req.session);
+  res.setHeader('Cache-Control', 'no-cache');
   req.session.destroy();
   console.log('logout after', req.session);
   res.json({ ok: true });
