@@ -10,7 +10,8 @@ iron-session をつかっており、サーバー側でセッション管理を�
 - [SWR](https://swr.vercel.app/ja)
 
 ## 設定ファイル
-`/env` に `/env/env.local.json` のように json ファイルを置いて環境ごとに動くようにする
+`/env` に `/env/env.local.json` のように json ファイルを置いて環境ごとに動くようにする. 
+本来はこれは `gitignore` に追加するか、リポジトリを `private` にする
 
 ```json
 {
