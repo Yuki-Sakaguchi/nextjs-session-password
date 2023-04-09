@@ -27,7 +27,7 @@ iron-session をつかっており、サーバー側でセッション管理を�
 - `NEXT_PUBLIC_APP_ENV` に `local`, `development`, `production` が入ります
 
 ## 参考記事
-- https://www.bezkoder.com/react-hooks-jwt-auth/
+- [React Hooks: JWT Authentication (without Redux) example](https://www.bezkoder.com/react-hooks-jwt-auth/)
 - [Next.js の Middleware](https://nextjs.org/docs/advanced-features/middleware)
 - [Next.jsで環境変数（env）を使いこなすための記事](https://zenn.dev/aktriver/articles/2022-04-nextjs-env)
 - 今回使ってないけど JWT も調べた
