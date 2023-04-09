@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { getIronSession } from "iron-session/edge";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { getIronSession } from 'iron-session/edge';
 
 export const middleware = async (req: NextRequest) => {
   const res = NextResponse.next();
@@ -12,12 +12,12 @@ export const middleware = async (req: NextRequest) => {
     cookieName,
     password,
     cookieOptions: {
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === 'production',
     },
   });
 
   const { user } = session;
-  console.log("from middleware", { user });
+  console.log('from middleware', { user });
 
   if (req.nextUrl.pathname === '/login') {
     // トップページの場合はログインしていたらダッシュボードに遷移させる
@@ -33,7 +33,6 @@ export const middleware = async (req: NextRequest) => {
   return res;
 };
 
-
 export const config = {
   matcher: [
     /*
@@ -45,4 +44,4 @@ export const config = {
      */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
-}
+};
