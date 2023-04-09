@@ -6,8 +6,10 @@ function logoutRoute(
   req: NextApiRequest,
   res: NextApiResponse<{ ok: boolean }>
 ) {
+  console.log('logout before', req.session);
   req.session.destroy();
-  res.send({ ok: true });
+  console.log('logout after', req.session);
+  res.json({ ok: true });
 }
 
 export default withIronSessionApiRoute(logoutRoute, sessionOptions);
