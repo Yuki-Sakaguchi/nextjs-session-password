@@ -1,14 +1,14 @@
-import { tryLogin } from "@/features/auth/database";
-import { withIronSessionApiRoute } from "iron-session/next";
-import { sessionOptions } from "@/features/auth/session";
-import { NextApiRequest, NextApiResponse } from "next";
+import { tryLogin } from '@/features/auth/database';
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { sessionOptions } from '@/features/auth/session';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   const { username, password } = await req.body;
   try {
     const userInfo = await tryLogin({ username, password });
     if (!userInfo) {
-      res.status(400).json({ message: "ログインに失敗しました" });
+      res.status(400).json({ message: 'ログインに失敗しました' });
       return;
     }
     req.session.user = userInfo;

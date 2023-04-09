@@ -1,18 +1,18 @@
-import Router from "next/router";
-import { useCallback, useEffect, useState } from "react";
-import useSWR from "swr";
-import fetchJson, { FetchError } from "./fetchJson";
-import { User } from "./session";
+import Router from 'next/router';
+import { useCallback, useEffect, useState } from 'react';
+import useSWR from 'swr';
+import fetchJson, { FetchError } from './fetchJson';
+import { User } from './session';
 
 export default function useAuth({
-  redirectOnLoggedInTo = "",
-  redirectOnNotLoggedInTo = "",
+  redirectOnLoggedInTo = '',
+  redirectOnNotLoggedInTo = '',
 } = {}) {
-  const { data: user, mutate: mutateUser } = useSWR<User | null>("/api/user");
+  const { data: user, mutate: mutateUser } = useSWR<User | null>('/api/user');
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
-  const [loginError, setLoginError] = useState<string>("");
-  const [logoutError, setLogoutError] = useState<string>("");
+  const [loginError, setLoginError] = useState<string>('');
+  const [logoutError, setLogoutError] = useState<string>('');
 
   useEffect(() => {
     if (redirectOnNotLoggedInTo && !user) {
@@ -30,14 +30,14 @@ export default function useAuth({
       };
       try {
         setIsLoggingIn(true);
-        const user = (await fetchJson("/api/login", "POST", body)) as User;
+        const user = (await fetchJson('/api/login', 'POST', body)) as User;
         mutateUser(user);
-        setLoginError("");
+        setLoginError('');
       } catch (e: any) {
         if (e instanceof FetchError) {
           setLoginError(e.data.message);
         } else {
-          setLoginError(e?.message ?? "unknown error");
+          setLoginError(e?.message ?? 'unknown error');
         }
       } finally {
         setIsLoggingIn(false);
@@ -49,14 +49,14 @@ export default function useAuth({
   const logout = useCallback(async () => {
     try {
       setIsLoggingOut(false);
-      await fetchJson<{ ok: boolean }>("/api/logout");
+      await fetchJson<{ ok: boolean }>('/api/logout');
       mutateUser(null);
-      setLogoutError("");
+      setLogoutError('');
     } catch (e: any) {
       if (e instanceof FetchError) {
         setLogoutError(e.data.message);
       } else {
-        setLogoutError(e?.message ?? "unknown error");
+        setLogoutError(e?.message ?? 'unknown error');
       }
     } finally {
       setIsLoggingOut(false);

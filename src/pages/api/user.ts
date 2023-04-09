@@ -1,6 +1,6 @@
-import { User, sessionOptions } from "@/features/auth/session";
-import { withIronSessionApiRoute } from "iron-session/next";
-import { NextApiRequest, NextApiResponse } from "next";
+import { User, sessionOptions } from '@/features/auth/session';
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 async function userRoute(
   req: NextApiRequest,
