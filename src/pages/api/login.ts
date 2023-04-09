@@ -6,10 +6,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   const { username, password } = await req.body;
   try {
-    console.log(username, password)
     const userInfo = await tryLogin({ username, password });
     if (!userInfo) {
-      res.status(400).json({ message: "Authentication failed" });
+      res.status(400).json({ message: "ログインに失敗しました" });
       return;
     }
     req.session.user = userInfo;

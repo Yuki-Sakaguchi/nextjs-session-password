@@ -19,15 +19,15 @@ export const middleware = async (req: NextRequest) => {
   const { user } = session;
   console.log("from middleware", { user });
 
-  if (req.nextUrl.pathname === '/') {
+  if (req.nextUrl.pathname === '/login') {
     // トップページの場合はログインしていたらダッシュボードに遷移させる
     if (user?.username) {
-      return NextResponse.redirect(new URL('/dashboard', req.url));
+      return NextResponse.redirect(new URL('/', req.url));
     }
   } else {
     // トップページ以外の場合、ログインしていなかったらトップページに遷移させる
     if (!user?.username) {
-      return NextResponse.redirect(new URL('/', req.url));
+      return NextResponse.redirect(new URL('/login', req.url));
     }
   }
   return res;
