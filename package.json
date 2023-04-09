@@ -4,8 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev:staging": "APP_ENV=staging next dev",
+    "dev:prod": "APP_ENV=production next dev",
+    "build:staging": "APP_ENV=staging next build",
+    "build:prod": "APP_ENV=production next build",
+    "start:staging": "APP_ENV=staging next start",
+    "start:prod": "APP_ENV=production next start",
     "lint": "next lint"
   },
   "dependencies": {
