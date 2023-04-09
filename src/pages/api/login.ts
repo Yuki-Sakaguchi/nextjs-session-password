@@ -1,47 +1,23 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { sign } from 'jsonwebtoken';
-import cookie from 'cookie';
+import { tryLogin } from "@/features/auth/database";
+import { withIronSessionApiRoute } from "iron-session/next";
+import { sessionOptions } from "@/features/auth/session";
+import { NextApiRequest, NextApiResponse } from "next";
 
-type Data = {
-  message: string,
-  uid?: string,
-};
-
-/**
- * uid と password を受け取ってログインに成功した時は JWT を Cookie にセットする
- */
-export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-  // POST 以外は受け付けない
-  if (req.method !== 'POST') {
-    res.status(405).json({ message: 'only support POST' });
-  }
-
-  const { uid, password } = req.body;
-  if (uid && password === process.env.PASSWORD) {
-    // ログイン成功
-    
-    // cookie を設定してレスポンスを返す
-    const claims = { sub: uid };
-    const jwt = sign(claims, process.env.SECRET_TOKEN as string);
-    res.setHeader('Set-Cookie',
-      cookie.serialize(
-        `${(process.env.NEXT_PUBLIC_APP_SITE_NAME as string)}_session`,
-        jwt,
-        {
-          httpOnly: true,
-          secure: process.env.NODE_ENV !== 'development',
-          sameSite: 'strict',
-          path: '/'
-        }
-      )
-    );
-    res.json({
-      message: 'ok',
-      uid,
-    });
-
-  } else {
-    // ログイン失敗
-    res.json({ message: 'ng' });
+async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
+  const { username, password } = await req.body;
+  try {
+    console.log(username, password)
+    const userInfo = await tryLogin({ username, password });
+    if (!userInfo) {
+      res.status(400).json({ message: "Authentication failed" });
+      return;
+    }
+    req.session.user = userInfo;
+    await req.session.save();
+    res.json(userInfo);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
   }
 }
+
+export default withIronSessionApiRoute(loginRoute, sessionOptions);

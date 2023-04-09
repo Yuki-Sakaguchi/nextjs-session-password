@@ -1,24 +1,38 @@
-import { NextResponse } from 'next/server'
-import { NextRequest } from 'next/server'
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getIronSession } from "iron-session/edge";
 
-/**
- * アクセス時にJWTトークンがあるか確かめてなければTOPにリダイレクトさせる 
- */
-export async function middleware(request: NextRequest) {
-  console.log('middleware', request.nextUrl.pathname);
-  // トップ以外の場合は認証チェックをする。失敗した場合はトップにリダイレクト
-  if (request.nextUrl.pathname !== '/') {
-    const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + '/api/verify');
-    const data = await response.json();
-    if (response.ok) {
-      if (data?.message === 'ng') {
-        return NextResponse.redirect(new URL('/', request.url))
-      }
-    } else {
-      return NextResponse.redirect(new URL('/', request.url))
+export const middleware = async (req: NextRequest) => {
+  const res = NextResponse.next();
+
+  const cookieName = process.env.NEXT_PUBLIC_APP_SITE_NAME as string;
+  const password = process.env.SECRET_TOKEN as string;
+
+  const session = await getIronSession(req, res, {
+    cookieName,
+    password,
+    cookieOptions: {
+      secure: process.env.NODE_ENV === "production",
+    },
+  });
+
+  const { user } = session;
+  console.log("from middleware", { user });
+
+  if (req.nextUrl.pathname === '/') {
+    // トップページの場合はログインしていたらダッシュボードに遷移させる
+    if (user?.username) {
+      return NextResponse.redirect(new URL('/dashboard', req.url));
+    }
+  } else {
+    // トップページ以外の場合、ログインしていなかったらトップページに遷移させる
+    if (!user?.username) {
+      return NextResponse.redirect(new URL('/', req.url));
     }
   }
-}
+  return res;
+};
+
 
 export const config = {
   matcher: [
