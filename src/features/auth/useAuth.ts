@@ -15,6 +15,12 @@ export default function useAuth({
   const [logoutError, setLogoutError] = useState<string>('');
 
   useEffect(() => {
+    console.log(
+      'useEffect',
+      redirectOnLoggedInTo,
+      redirectOnNotLoggedInTo,
+      user
+    );
     if (redirectOnNotLoggedInTo && !user) {
       Router.push(redirectOnNotLoggedInTo);
     } else if (redirectOnLoggedInTo && user) {
