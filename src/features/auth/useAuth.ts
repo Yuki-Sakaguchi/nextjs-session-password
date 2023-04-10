@@ -23,8 +23,10 @@ export default function useAuth({
       user
     );
     if (redirectOnNotLoggedInTo && !user) {
+      console.log('redirectOnNotLoggedInTo', redirectOnNotLoggedInTo);
       router.push(redirectOnNotLoggedInTo);
     } else if (redirectOnLoggedInTo && user) {
+      console.log('redirectOnLoggedInTo', redirectOnLoggedInTo);
       router.push(redirectOnLoggedInTo);
     }
   }, [user, redirectOnLoggedInTo, redirectOnNotLoggedInTo]);
