@@ -10,6 +10,10 @@ iron-session をつかっており、サーバー側でセッション管理を�
     - もっとしっかり作りなたいならたぶん [NextAuth](https://github.com/maximilianschmitt/next-auth)
 - [SWR](https://swr.vercel.app/ja)
 
+## DEMO
+https://nextjs-session-password.vercel.app/
+passpord / mcgJb5aj
+
 ## 設定ファイル
 `/env` に `/env/env.local.json` のように json ファイルを置いて環境ごとに動くようにする. 
 本来はこれは `gitignore` に追加するか、リポジトリを `private` にする
