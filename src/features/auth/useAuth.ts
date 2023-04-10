@@ -49,7 +49,7 @@ export default function useAuth({
   const logout = useCallback(async () => {
     try {
       setIsLoggingOut(false);
-      await fetchJson<{ ok: boolean }>('/api/logout');
+      await fetchJson<{ ok: boolean }>('/api/logout', 'POST');
       mutateUser(null);
       setLogoutError('');
     } catch (e: any) {
