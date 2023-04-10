@@ -1,4 +1,4 @@
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 import useSWR from 'swr';
 import fetchJson, { FetchError } from './fetchJson';
@@ -13,6 +13,7 @@ export default function useAuth({
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>('');
   const [logoutError, setLogoutError] = useState<string>('');
+  const router = useRouter();
 
   useEffect(() => {
     console.log(
@@ -22,9 +23,9 @@ export default function useAuth({
       user
     );
     if (redirectOnNotLoggedInTo && !user) {
-      Router.push(redirectOnNotLoggedInTo);
+      router.push(redirectOnNotLoggedInTo);
     } else if (redirectOnLoggedInTo && user) {
-      Router.push(redirectOnLoggedInTo);
+      router.push(redirectOnLoggedInTo);
     }
   }, [user, redirectOnLoggedInTo, redirectOnNotLoggedInTo]);
 
