@@ -4,6 +4,8 @@
 
 iron-session をつかっており、サーバー側でセッション管理をしているわけではなく、 cookie で管理しています。  
 
+![スクリーンショット 2023-04-14 0 23 46](https://user-images.githubusercontent.com/16290220/231809240-bc1a6684-397c-4547-b110-bed0438ca70b.jpg)
+
 ## DEMO
 https://nextjs-session-password.vercel.app/  
 password = `mcgJb5aj`
