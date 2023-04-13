@@ -19,7 +19,7 @@ export default function Login() {
   const handleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      await login(username, password);
+      await login(username, password, '/');
     },
     [login, username, password]
   );

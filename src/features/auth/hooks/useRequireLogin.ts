@@ -6,7 +6,7 @@ import { useCurrentUser } from './useCurrentUser';
  * このフックを使ったページはログイン必須ページになる
  * ログインしていない状況であればログインページにリダイレクトされる
  */
-export function useRequireLogin(redirectTo = 'login') {
+export function useRequireLogin(redirectTo = '/login') {
   const { isAuthChecking, currentUser } = useCurrentUser();
   const router = useRouter();
 

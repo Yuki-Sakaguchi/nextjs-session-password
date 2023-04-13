@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 
 import fetchJson, { FetchError } from '../fetchJson';
 import { User } from '../session';
@@ -12,6 +13,7 @@ export default function useAuth() {
   const [currentUser, setCurrentUser] = useAtom(currentUserState);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   /**
    * ログイン状態を確認してステータスを更新
@@ -35,10 +37,15 @@ export default function useAuth() {
 
   /**
    * ログインをする
-   * @params username
-   * @params password
+   * @param username
+   * @param password
+   * @param redirectTo
    */
-  const login = async (username: string, password: string) => {
+  const login = async (
+    username: string,
+    password: string,
+    redirectTo?: string
+  ) => {
     setLoading(true);
     const body = { username, password };
     try {
@@ -52,14 +59,19 @@ export default function useAuth() {
       }
       setCurrentUser(null);
     } finally {
-      setLoading(false);
+      if (redirectTo) {
+        router.push(redirectTo);
+      } else {
+        setLoading(false);
+      }
     }
   };
 
   /**
    * ログアウトをする
+   * @param redirectTo
    */
-  const logout = async () => {
+  const logout = async (redirectTo?: string) => {
     setLoading(true);
     try {
       await fetchJson<{ ok: boolean }>('/api/logout', 'POST');
@@ -72,7 +84,11 @@ export default function useAuth() {
       }
       setCurrentUser(null);
     } finally {
-      setLoading(false);
+      if (redirectTo) {
+        router.push(redirectTo);
+      } else {
+        setLoading(false);
+      }
     }
   };
 
