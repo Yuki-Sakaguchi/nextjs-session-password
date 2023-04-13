@@ -9,7 +9,7 @@ import clsx from 'clsx';
  */
 export default function Home() {
   useRequireLogin();
-  const { logout, loading } = useAuth();
+  const { logout } = useAuth();
 
   return (
     <Layout title='Dashboard'>
@@ -18,12 +18,8 @@ export default function Home() {
       <div className='mt-4'>
         <button
           type='submit'
-          className={clsx(
-            'group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700',
-            loading && 'pointer-events-none opacity-60'
-          )}
-          disabled={loading}
-          onClick={logout}
+          className='group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700'
+          onClick={() => logout()}
         >
           logout
         </button>
