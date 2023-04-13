@@ -2,15 +2,15 @@ import type { FormEvent } from 'react';
 import { useState, useCallback } from 'react';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
 import { Layout } from '@/components/Layout';
-import useAuth from '@/features/auth/useAuth';
+import useAuth from '@/features/auth/hooks/useAuth';
 import { v4 as uuidv4 } from 'uuid';
+import { useRedirectIfLoggedIn } from '@/features/auth/hooks/useRedirectIfLoggedIn';
 
 export default function Login() {
+  useRedirectIfLoggedIn('/');
+  const { login, error } = useAuth();
   const [username, setUsername] = useState(uuidv4());
   const [password, setPassword] = useState('');
-  const { login, isLoggingIn, loginError } = useAuth({
-    redirectOnLoggedInTo: '/',
-  });
 
   const handleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
@@ -37,11 +37,10 @@ export default function Login() {
         <button
           type='submit'
           className='group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700'
-          disabled={isLoggingIn}
         >
           Login
         </button>
-        {loginError && <p className='text-red'>{loginError}</p>}
+        {error && <p className='text-red'>{error}</p>}
       </form>
     </Layout>
   );

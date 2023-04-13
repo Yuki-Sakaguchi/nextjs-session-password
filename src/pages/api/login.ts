@@ -6,14 +6,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   const { username, password } = await req.body;
   try {
-    const userInfo = await tryLogin({ username, password });
-    if (!userInfo) {
-      res.status(400).json({ message: 'ログインに失敗しました' });
-      return;
-    }
-    req.session.user = userInfo;
+    const user = await tryLogin({ username, password });
+    req.session.user = user;
     await req.session.save();
-    res.json(userInfo);
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
