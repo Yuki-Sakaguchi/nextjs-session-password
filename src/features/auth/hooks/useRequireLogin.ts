@@ -13,5 +13,5 @@ export function useRequireLogin(redirectTo = 'login') {
   useEffect(() => {
     if (isAuthChecking) return;
     if (!currentUser) router.push(redirectTo);
-  }, [router, isAuthChecking, currentUser]);
+  }, [redirectTo, router, isAuthChecking, currentUser]);
 }
