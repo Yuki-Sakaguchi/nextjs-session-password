@@ -11,11 +11,13 @@ import { currentUserState } from '../states/currentUser';
 export default function useAuth() {
   const [currentUser, setCurrentUser] = useAtom(currentUserState);
   const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   /**
    * ログイン状態を確認してステータスを更新
    */
   const checkLogin = async () => {
+    setLoading(true);
     try {
       const user = (await fetchJson('/api/user', 'GET')) as User;
       setCurrentUser(user); // ログインに失敗した時はnullが入る
@@ -26,6 +28,8 @@ export default function useAuth() {
         setError(e?.message ?? 'unknown error');
       }
       setCurrentUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,6 +39,7 @@ export default function useAuth() {
    * @params password
    */
   const login = async (username: string, password: string) => {
+    setLoading(true);
     const body = { username, password };
     try {
       const user = (await fetchJson('/api/login', 'POST', body)) as User;
@@ -46,6 +51,8 @@ export default function useAuth() {
         setError(e?.message ?? 'unknown error');
       }
       setCurrentUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,6 +60,7 @@ export default function useAuth() {
    * ログアウトをする
    */
   const logout = async () => {
+    setLoading(true);
     try {
       await fetchJson<{ ok: boolean }>('/api/logout', 'POST');
       setCurrentUser(null);
@@ -63,12 +71,15 @@ export default function useAuth() {
         setError(e?.message ?? 'unknown error');
       }
       setCurrentUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
   return {
     currentUser,
     error,
+    loading,
     checkLogin,
     login,
     logout,

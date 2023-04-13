@@ -5,10 +5,14 @@ import { Layout } from '@/components/Layout';
 import useAuth from '@/features/auth/hooks/useAuth';
 import { v4 as uuidv4 } from 'uuid';
 import { useRedirectIfLoggedIn } from '@/features/auth/hooks/useRedirectIfLoggedIn';
+import clsx from 'clsx';
 
+/**
+ * ログインページ
+ */
 export default function Login() {
   useRedirectIfLoggedIn('/');
-  const { login, error } = useAuth();
+  const { login, error, loading } = useAuth();
   const [username, setUsername] = useState(uuidv4());
   const [password, setPassword] = useState('');
 
@@ -36,7 +40,11 @@ export default function Login() {
         </div>
         <button
           type='submit'
-          className='group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700'
+          className={clsx(
+            'group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700',
+            loading && 'pointer-events-none opacity-60'
+          )}
+          disabled={loading}
         >
           Login
         </button>
