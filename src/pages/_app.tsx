@@ -8,6 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     checkLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <Component {...pageProps} />;

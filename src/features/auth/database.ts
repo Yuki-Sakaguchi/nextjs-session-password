@@ -1,4 +1,4 @@
-import { User, NullUser } from './session';
+import { User } from './session';
 
 export async function tryLogin(params: {
   username: string;

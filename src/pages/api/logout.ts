@@ -1,6 +1,5 @@
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { sessionOptions } from '@/features/auth/session';
-// import { serialize } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 function logoutRoute(

@@ -13,5 +13,5 @@ export function useRedirectIfLoggedIn(redirectTo: string) {
   useEffect(() => {
     if (isAuthChecking) return;
     if (currentUser) router.push(redirectTo);
-  }, [isAuthChecking, currentUser]);
+  }, [router, isAuthChecking, currentUser]);
 }
