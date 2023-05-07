@@ -8,6 +8,10 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   try {
     const user = await tryLogin({ username, password });
     req.session.user = user;
+    if (!user) {
+      res.status(400).json({ message: '認証に失敗しました' });
+      return;
+    }
     await req.session.save();
     res.json(user);
   } catch (error) {

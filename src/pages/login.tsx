@@ -19,6 +19,7 @@ export default function Login() {
   const handleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      if (loading) return;
       await login(username, password, '/');
     },
     [login, username, password]
@@ -48,7 +49,7 @@ export default function Login() {
         >
           Login
         </button>
-        {error && <p className='text-red'>{error}</p>}
+        {error && <p className='text-red-400'>{error}</p>}
       </form>
     </Layout>
   );
