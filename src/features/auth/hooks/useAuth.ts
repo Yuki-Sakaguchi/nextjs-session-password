@@ -51,6 +51,7 @@ export default function useAuth() {
     try {
       const user = (await fetchJson('/api/login', 'POST', body)) as User;
       setCurrentUser(user);
+      setError('');
     } catch (e: any) {
       if (e instanceof FetchError) {
         setError(e.data.message);
@@ -59,11 +60,10 @@ export default function useAuth() {
       }
       setCurrentUser(null);
     } finally {
-      if (redirectTo) {
+      if (currentUser != null && redirectTo) {
         router.push(redirectTo);
-      } else {
-        setLoading(false);
       }
+      setLoading(false);
     }
   };
 
@@ -76,6 +76,7 @@ export default function useAuth() {
     try {
       await fetchJson<{ ok: boolean }>('/api/logout', 'POST');
       setCurrentUser(null);
+      setError('');
     } catch (e: any) {
       if (e instanceof FetchError) {
         setError(e.data.message);

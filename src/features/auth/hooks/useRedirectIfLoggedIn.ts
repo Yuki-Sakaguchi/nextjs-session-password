@@ -12,6 +12,11 @@ export function useRedirectIfLoggedIn(redirectTo: string) {
 
   useEffect(() => {
     if (isAuthChecking) return;
-    if (currentUser) router.push(redirectTo);
+    if (currentUser) {
+      // ログイン時にはパスが変更される場合があるので、少し遅延させてからパスが違う場合のみ遷移させる
+      setTimeout(() => {
+        if (redirectTo !== router.pathname) router.push(redirectTo);
+      }, 100);
+    }
   }, [redirectTo, router, isAuthChecking, currentUser]);
 }
