@@ -24,12 +24,14 @@ declare module 'iron-session' {
  */
 export type User = {
   username: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 /**
  * User object that indicates not logged in
  */
-export const NullUser: User = {
+export const NullUser: Omit<User, 'createdAt' | 'updatedAt'> = {
   username: '',
 };
 
